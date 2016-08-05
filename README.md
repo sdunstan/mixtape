@@ -16,8 +16,8 @@ For Christmas I curate a collection of music to give to my kids. This little app
 ## Setup
 
 1. clone the repo
-2. npm install
-3. fill the playlist directory with your audio files
+2. `npm install`
+3. create a playlist directory and fill it with your audio files.
 4. create a text file called playlist.txt in the playlist directory that contains the file names in the order they should appear. Hint: you can just use the playlist export feature of iTunes to generate the file.
 5. try it: `npm start`
 

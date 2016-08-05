@@ -3,7 +3,7 @@ var fs = require('fs');
 var playlist = (function() {
   return {
     parsePlaylist: function(callback) {
-      fs.readFile('./playlist/1995.txt', function(err, data) {
+      fs.readFile('./playlist/playlist.txt', function(err, data) {
         var songList = [];
         if (!err) {
           var fileText = data.toString("ascii");
