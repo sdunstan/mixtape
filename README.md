@@ -24,6 +24,11 @@ For Christmas I curate a collection of music to give to my kids. This little app
 ## todo
 There is a lot to do.
 
+* Need a placeholder image for audio files with no image data.
+* Need to display notes.
+* Better layout.
+* Animations.
+* Handle audio file names with special characters.
 * The Javascript is mostly pre-ES6; need to modernize this.
 * create a package step
 * visualization/signal processing
