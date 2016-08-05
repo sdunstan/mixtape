@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Mixtape</title>
+    <style>
+    body {
+      margin: 0;
+      color: #ffffff;
+      font-family: sans-serif;
+      font-weight: lighter;
+      height: 100%;
+      min-height: 100%;
+      font-size: 1.5em;
+    }
+
+    #coverart {
+      position: fixed;
+      top: 0;
+      left: 0;
+      min-width: 100%;
+      min-height: 100%;
+      z-index: -1;
+    }
+
+    #scrubber {
+      z-index: 100;
+      position: absolute;
+      top: 0;
+      width: 100%;
+    }
+
+    #container {
+      height: 100%;
+      margin-bottom: 10em;
+    }
+
+    #player {
+      position: fixed;
+      top: 0;
+      min-width: 100%;
+      background-color: rgba(0,0,0,0.75);
+      padding: 1em;
+      height: 3em;
+      box-shadow: 0px 2px 2px 0px rgba(0,0,0,0.33);
+      margin: 0;
+    }
+
+    #playlist {
+      position: fixed;
+      width: 100%;
+      margin-top: 5em;
+      overflow-y: scroll;
+      height: 100%;
+    }
+
+    #songListElement {
+      padding: 0.2em;
+      margin-top: 0;
+      margin-bottom: 5em;
+      background: rgba(0,0,0,.25);
+    }
+
+    #songListElement li {
+      padding: 0.25em;
+    }
+
+    #controls {
+    }
+
+    #title {
+      font-weight: bold;
+    }
+
+    </style>
+    <link href="playlist.css" rel="stylesheet">
+    <link href="bower_components/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+</head>
+<body>
+  <img id="coverart">
+  <progress id="scrubber"></progress>
+  <div id="container">
+    <div id="player">
+      <audio id="deck"></audio>
+      <div id="title"></div>
+      <div id="artist"></div>
+      <div id="controls">
+        <i id="playButton" class="fa fa-play" aria-hidden="true"></i>
+      </div>
+    </div>
+    <div id="playlist">
+      <ul id="songListElement">
+      </ul>
+    </div>
+  </div>
+
+  <script src="./coverart.js"></script>
+  <script src="./playlist.js"></script>
+  <script src="./renderer.js"></script>
+</body>
+</html>
