@@ -7,11 +7,8 @@ ___  __________   _______ ___  ______ _____
 \_|  |_/\___/\/   \/ \_/\_| |_/\_|   \____/
 ```
 
-# SHOW YOUR LOVE
-
-Giving someone a mixtape means you love them. Love is great but you should not steal music.
-
-For Christmas I curate a collection of music to give to my kids. This little app will allow me to create a mixtape and add my notes.
+# Mixtape
+This is a little music player app with features for creating great playlists.
 
 ## Setup
 

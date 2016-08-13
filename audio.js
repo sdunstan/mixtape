@@ -22,9 +22,16 @@ var audio = (function() {
           deck.buffer = bufferA;
           deck.connect(context.destination);
           deckA = deck;
+          durationA = bufferA.duration;
           deckConnected && deckConnected();
         });
       });
+    },
+    durationA: function() {
+      return durationA;
+    },
+    currentTimeA: function() {
+      return context.currentTime;
     },
     playA: function() {
       if (deckA && !playingA) {

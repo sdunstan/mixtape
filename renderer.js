@@ -33,6 +33,7 @@ document.getElementById("playButton").onclick =
     playButton.classList.toggle("fa-play");
     playButton.classList.toggle("fa-pause");
 
+    // TODO: toggle scrubber anamation.
     // scrubber.max = audioElement.duration;
     // scrubber.value = audioElement.currentTime;
   };
