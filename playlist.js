@@ -1,26 +1,29 @@
-var fs = require('fs');
+/*jshint esversion: 6, -W117 */
 
-var playlist = (function() {
-  return {
-    parsePlaylist: function(callback) {
-      fs.readFile('./playlist/playlist.txt', function(err, data) {
-        var songList = [];
+const fs = require('fs');
+
+module.exports.parsePlaylist = function(callback) {
+    'use strict';
+    fs.readFile('./playlist/playlist.txt', function(err, data) {
+        let songList = [];
         if (!err) {
-          var fileText = data.toString("ascii");
-          var lines = fileText.split(/[\n\r]/);
-          lines.forEach(function(line) {
-              var items = line.split("\t");
-              var filePath = items[items.length-1].split(":");
-              songList.push(
-                {
-                  path: filePath[filePath.length-1]
+            let fileText = data.toString('ascii');
+            let lines = fileText.split(/[\n\r]/);
+            lines.forEach(function(line) {
+                let items = line.split('\t');
+                let filePath = items[items.length-1].split(':');
+                let fileName = filePath[filePath.length-1];
+                if (fileName) {
+                    songList.push(
+                        {
+                            path: fileName
+                        }
+                  );
                 }
-              )
-          });
-          songList.splice(0,1); // remove header line
-          callback(songList);
+            });
+            songList.splice(0,1); // remove header line
+            callback(songList);
         }
-      });
-    }
-  }
-}());
+    });
+};
+

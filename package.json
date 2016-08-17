@@ -14,9 +14,13 @@
   "license": "Apache2",
   "homepage": "https://github.com/sdunstan/mixtape",
   "devDependencies": {
-    "electron-prebuilt": "^1.2.0"
+    "electron-prebuilt": "^1.2.0",
+    "eslint": "^3.3.0",
+    "eslint-plugin-react": "^6.0.0",
+    "jshint": "^2.9.2"
   },
   "dependencies": {
+    "async": "^2.0.1",
     "font-awesome": "^4.6.3",
     "jsmediatags": "^3.2.1"
   }
