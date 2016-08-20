@@ -28,6 +28,9 @@ let setupSong = function(song) {
             if (tag.tags.picture) {
                 document.getElementById('coverart').src = coverart.arrayToDataUrl(tag.tags.picture);
             }
+            else {
+                document.getElementById('coverart').src = './mixtape.svg';
+            }
         },
         onError: function(error) {
             console.log(error);
