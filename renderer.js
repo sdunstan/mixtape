@@ -11,36 +11,34 @@ const scrubber = document.getElementById('scrubber'),
     songListElement = document.getElementById('songListElement'),
     playButton = document.getElementById('playButton');
 
-let setupSong = function(song) {
-    scrubber.max = 100;
-    scrubber.value = 0;
+window.setInterval(function() {
+    scrubber.value = audio.currentTime();    
+    scrubber.max = audio.duration();
+}, 1000);
 
+let setupSong = function(songIndex) {
+    let song = songList[songIndex];
     playButton.classList.add('fa-play');
     playButton.classList.remove('fa-pause');
 
-    audio.loadA('playlist/' + song);
-
-    jsmediatags.read('playlist/' + song, {
-        onSuccess: function(tag) {
-            // console.log(tag);
-            document.getElementById('title').innerText = tag.tags.title;
-            document.getElementById('artist').innerText = tag.tags.artist;
-            if (tag.tags.picture) {
-                document.getElementById('coverart').src = coverart.arrayToDataUrl(tag.tags.picture);
-            }
-            else {
-                document.getElementById('coverart').src = './mixtape.svg';
-            }
-        },
-        onError: function(error) {
-            console.log(error);
-        }
+    audio.load('playlist/' + song.path, () => {
+        scrubber.max = audio.duration();
+        scrubber.value = 0;
     });
+
+    document.getElementById('title').innerText = song.tags.title;
+    document.getElementById('artist').innerText = song.tags.artist;
+    if (song.tags.picture) {
+        document.getElementById('coverart').src = coverart.arrayToDataUrl(song.tags.picture);
+    }
+    else {
+        document.getElementById('coverart').src = './mixtape.svg';
+    }
 };
 
 document.getElementById('playButton').onclick =
   function() {
-      audio.toggleA();
+      audio.toggle();
       playButton.classList.toggle('fa-play');
       playButton.classList.toggle('fa-pause');
 
@@ -51,20 +49,19 @@ document.getElementById('playButton').onclick =
 
 let writeSongListToDom = function() {
     async.eachOf(songList, function(song, index, callback) {
-        songListElement.insertAdjacentHTML('beforeend', `<li onclick='setupSong("${song.path}")' id='#song${index}'><b>${song.tags.title}</b><br>${song.tags.artist}</li>`);
+        songListElement.insertAdjacentHTML('beforeend', `<li onclick='setupSong(${index})' id='#song${index}'><b>${song.tags.title}</b><br>${song.tags.artist}</li>`);
         callback();
     });
+    setupSong(0);
 };
 
 let appendMediaTags = function(song, callback) {
-    console.log('About to try to read ' + song.path);
     jsmediatags.read('playlist/' + song.path, {
         onSuccess: function(tag) {
             song.tags = tag.tags;
             callback();
         },
         onError: function(error) {
-            console.log(error);
             callback(error);
         }
     });
@@ -73,7 +70,6 @@ let appendMediaTags = function(song, callback) {
 playlist.parsePlaylist(
     function(result) {
         songList = result.slice(0);
-        setupSong(songList[0].path); // move to end
         async.each(songList, appendMediaTags, writeSongListToDom);
     }
 );

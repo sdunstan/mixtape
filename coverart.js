@@ -7,7 +7,7 @@ module.exports = (function() {
             for (let i = 0; i < image.data.length; i++) {
                 base64String += String.fromCharCode(image.data[i]);
             }
-            return "data:" + image.format + ";base64," + window.btoa(base64String);
+            return 'data:' + image.format + ';base64,' + window.btoa(base64String);
         }
     };
 }());

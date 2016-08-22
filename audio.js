@@ -2,70 +2,88 @@
 
 const fs = require('fs');
 
-// TODO: get rid of this state
-module.exports = (function() {
+function Audio() {
     'use strict';
-    let deckA, playingA = false, context, bufferA, offsetA;
+    let deck, playing = false, context, buffer, offset, startTime;
 
-    return {
-        isPlayingA: () => { return playingA; },
-        loadA: (fileName, deckConnected) => {
-            if (playingA) {
-                this.pauseA();
-            }
+    this.isPlaying = () => { return playing; };
 
-            deckA = null;
+    this.load = (fileName, deckConnected) => {
+        if (playing) {
+            this.pause();
+        }
 
-            if (context) {
-                context.close();
-                context = null;
-                bufferA = null;
-            }
+        deck = null;
 
-            offsetA = 0.0;
-            context = new AudioContext();
-            fs.readFile(fileName, (err, fileData) => {
-                context.decodeAudioData(fileData.buffer, (audioBuffer) => {
-                    bufferA = audioBuffer;
-                    var deck = context.createBufferSource();
-                    deck.buffer = bufferA;
-                    deck.connect(context.destination);
-                    deckA = deck;
-                    this.durationA = bufferA.duration;
-                    if (deckConnected)
-                        deckConnected();
-                });
+        if (context) {
+            context.close();
+            context = null;
+            buffer = null;
+        }
+
+        offset = 0.0;
+        startTime = 0.0;
+        context = new AudioContext();
+        fs.readFile(fileName, (err, fileData) => {
+            context.decodeAudioData(fileData.buffer, (audioBuffer) => {
+                buffer = audioBuffer;
+                var aDeck = context.createBufferSource();
+                aDeck.buffer = buffer;
+                aDeck.connect(context.destination);
+                deck = aDeck;
+                if (deckConnected)
+                    deckConnected();
             });
-        },
-        currentTimeA: function() {
-            return context.currentTime;
-        },
-        playA: function() {
-            if (deckA && !playingA) {
-                playingA = true;
-                deckA.start(0, offsetA);
-            }
-        },
-        pauseA: function() {
-            if (deckA || playingA) {
-                offsetA = context.currentTime;
-                playingA = false;
-                deckA.stop();
-                deckA = null;
+        });
+    };
 
-                var deck = context.createBufferSource();
-                deck.buffer = bufferA;
-                deck.connect(context.destination);
-                deckA = deck;
-            }
-        },
-        toggleA: function() {
-            if (deckA) {
-                if (playingA)
-                    this.pauseA();
-                else
-                    this.playA();
-            }
+    this.currentTime = function() {
+        if (playing)
+            return context.currentTime - startTime;
+        else
+            return offset;
+    };
+
+    this.duration = function() {
+        if (buffer) {
+            return buffer.duration;
+        }
+        else {
+            return 100.0;
         }
     };
-}());
+
+    this.play = function() {
+        if (deck && !playing) {
+            playing = true;
+            deck.start(0, offset);
+            offset = context.currentTime;
+            startTime = offset;
+        }
+    };
+
+    this.pause = function() {
+        if (deck && playing) {
+            offset = context.currentTime;
+            playing = false;
+            deck.stop();
+            deck = null;
+
+            var tempDeck = context.createBufferSource();
+            tempDeck.buffer = buffer;
+            tempDeck.connect(context.destination);
+            deck = tempDeck;
+        }
+    };
+
+    this.toggle = function() {
+        if (deck) {
+            if (playing)
+                this.pause();
+            else
+                this.play();
+        }
+    };
+}
+
+module.exports = new Audio();
