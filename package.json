@@ -11,7 +11,7 @@
     "url": "git+https://github.com/sdunstan/mixtape.git"
   },
   "author": "Steve Dunstan",
-  "license": "Apache2",
+  "license": "Apache-2.0",
   "homepage": "https://github.com/sdunstan/mixtape",
   "devDependencies": {
     "electron-prebuilt": "^1.2.0",
